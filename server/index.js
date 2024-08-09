@@ -19,12 +19,25 @@ app.use(
     useTempFiles: true
   })
 );
+const allowedOrigins = process.env.NODE_ENV === "production"
+  ? process.env.ALLOWED_ORIGINS_PRODUCTION.split(',')
+  : process.env.ALLOWED_ORIGINS_LOCAL.split(',');
 
 const corsOptions = {
-  origin: process.env.ALLOWED_ORIGINS_PRODUCTION,
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200
 };
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://assignment-app--phi.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 app.use(cors(corsOptions));
 Connection();
 app.use('/api',uploadRouter)
