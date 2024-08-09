@@ -23,11 +23,17 @@ const allowedOrigins = process.env.NODE_ENV === "production"
   ? process.env.ALLOWED_ORIGINS_PRODUCTION.split(',')
   : process.env.ALLOWED_ORIGINS_LOCAL.split(',');
 
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-  optionsSuccessStatus: 200
-};
+  const corsOptions = {
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200
+  };
 app.use(cors(corsOptions));
 Connection();
 app.use('/api',uploadRouter)
