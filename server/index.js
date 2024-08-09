@@ -19,16 +19,8 @@ app.use(
     useTempFiles: true
   })
 );
-const allowedOrigins = process.env.NODE_ENV === "production"
-  ? process.env.ALLOWED_ORIGINS_PRODUCTION.split(',')
-  : process.env.ALLOWED_ORIGINS_LOCAL.split(',');
 
-const corsOptions = {
-  origin: allowedOrigins,
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+app.use(cors());
 Connection();
 app.use('/api',uploadRouter)
 // if (process.env.NODE_ENV === "production") {
