@@ -19,12 +19,9 @@ app.use(
     useTempFiles: true
   })
 );
-const allowedOrigins = process.env.NODE_ENV === "production"
-  ? process.env.ALLOWED_ORIGINS_PRODUCTION.split(',')
-  : process.env.ALLOWED_ORIGINS_LOCAL.split(',');
 
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: process.env.ALLOWED_ORIGINS_PRODUCTION,
   credentials: true,
   optionsSuccessStatus: 200
 };
