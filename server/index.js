@@ -28,7 +28,7 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200
 };
-app.use(cors());
+app.use(cors(corsOptions));
 Connection();
 app.use('/api',uploadRouter)
 // if (process.env.NODE_ENV === "production") {
